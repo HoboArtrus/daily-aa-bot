@@ -3,7 +3,7 @@ name: Daily AA Reading Poster
 on:
   schedule:
     - cron: '1 4 * * *'  # 00:01 EST
-  workflow_dispatch:
+  workflow_dispatch:  # <-- THIS line enables the manual "Run workflow" button
 
 jobs:
   post-reading:
