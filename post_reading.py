@@ -15,9 +15,11 @@ async def post_to_discord():
         if channel:
             print("📨 Channel found. Sending test message...")
             await channel.send("✅ Test message from AA Daily Reading Bot!")
+            print("✅ Message sent.")
         else:
             print("❌ Channel not found.")
         await client.close()
+        print("👋 Bot closed.")
 
     try:
         await client.start(DISCORD_TOKEN)
@@ -26,4 +28,3 @@ async def post_to_discord():
 
 if __name__ == "__main__":
     asyncio.run(post_to_discord())
-await channel.send("✅ Test message from AA Daily Reading Bot!")
