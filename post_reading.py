@@ -21,25 +21,30 @@ def fetch_daily_reading():
     return f"📖 **AA Daily Reading** 📖\n\n{reading}"
 
 async def post_to_discord():
+    print("🚀 Starting bot...")
     client = discord.Client(intents=discord.Intents.default())
 
     @client.event
     async def on_ready():
         print(f"🤖 Logged in as {client.user}")
+        print(f"📌 Looking for channel ID: {DISCORD_CHANNEL_ID}")
         channel = client.get_channel(DISCORD_CHANNEL_ID)
         if channel:
-            print("📨 Channel found. Sending daily reading...")
-            await channel.send(fetch_daily_reading())
-            print("✅ Message sent.")
+            print("📨 Channel found. Attempting to send message...")
+            try:
+                await channel.send(fetch_daily_reading())
+                print("✅ Message sent.")
+            except Exception as send_error:
+                print(f"❌ Failed to send message: {send_error}")
         else:
-            print("❌ Channel not found. Check permissions or channel ID.")
+            print("❌ Channel not found. Check ID or bot permissions.")
         await client.close()
         print("👋 Bot closed.")
 
     try:
         await client.start(DISCORD_TOKEN)
     except Exception as e:
-        print(f"🔥 Error: {e}")
+        print(f"🔥 Login error: {e}")
 
 if __name__ == "__main__":
     asyncio.run(post_to_discord())
