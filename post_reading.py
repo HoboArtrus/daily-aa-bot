@@ -28,7 +28,7 @@ async def post_to_discord():
             print("✅ Posted daily reading")
         else:
             print("❌ Channel not found")
-        await client.close()
+        await client.close()  # THIS is critical
 
     await client.start(DISCORD_TOKEN)
 
