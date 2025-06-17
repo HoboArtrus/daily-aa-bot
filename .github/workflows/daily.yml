@@ -3,7 +3,7 @@ name: Daily AA Reading Poster
 on:
   schedule:
     - cron: '1 4 * * *'  # 00:01 EST
-  workflow_dispatch:  # <-- THIS line enables the manual "Run workflow" button
+  workflow_dispatch:
 
 jobs:
   post-reading:
@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run bot
-        env: 1379855310260404294
+        env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}  # ← this line was missing
+          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
         run: python post_reading.py
