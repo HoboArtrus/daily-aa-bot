@@ -4,6 +4,8 @@ import discord
 import asyncio
 import os
 
+print(f"🔧 Loaded DISCORD_CHANNEL_ID from env: '{os.getenv('DISCORD_CHANNEL_ID')}'")
+
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 DISCORD_CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))
 
