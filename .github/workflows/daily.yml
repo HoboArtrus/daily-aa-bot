@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run bot
-        env:
+        env: 1379855310260404294
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}  # ← this line was missing
         run: python post_reading.py
