@@ -37,4 +37,9 @@ async def post_to_discord():
         print("👋 Bot closed.")
 
     try:
-        a
+        await client.start(DISCORD_TOKEN)
+    except Exception as e:
+        print(f"🔥 Error: {e}")
+
+if __name__ == "__main__":
+    asyncio.run(post_to_discord())
