@@ -8,29 +8,39 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 DISCORD_CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))
 
 def fetch_daily_reading():
+    print("🔍 Fetching daily reading from website...")
     url = "https://www.aahappyhour.com/daily-readings/"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     content_div = soup.find("div", class_="entry-content")
     if not content_div:
+        print("❌ Could not find the reading on the page.")
         return "Could not fetch today's reading."
     reading = content_div.get_text(separator="\n", strip=True)
+    print("✅ Successfully fetched reading.")
     return f"📖 **AA Daily Reading** 📖\n\n{reading}"
 
 async def post_to_discord():
+    print("🚀 Starting Discord bot...")
     client = discord.Client(intents=discord.Intents.default())
 
     @client.event
     async def on_ready():
+        print(f"🤖 Logged in as {client.user}")
         channel = client.get_channel(DISCORD_CHANNEL_ID)
         if channel:
+            print("📨 Channel found, sending message...")
             await channel.send(fetch_daily_reading())
-            print("✅ Posted daily reading")
+            print("✅ Message sent successfully.")
         else:
-            print("❌ Channel not found")
-        await client.close()  # THIS is critical
+            print("❌ Channel not found. Check CHANNEL_ID or permissions.")
+        await client.close()
+        print("👋 Bot closed connection.")
 
-    await client.start(DISCORD_TOKEN)
+    try:
+        await client.start(DISCORD_TOKEN)
+    except Exception as e:
+        print(f"🔥 Exception occurred: {e}")
 
 if __name__ == "__main__":
     asyncio.run(post_to_discord())
