@@ -28,8 +28,7 @@ async def post_to_discord():
     @client.event
     async def on_ready():
         print(f"🤖 Logged in as {client.user}")
-        try:
-            print(f"📌 Attempting to fetch channel ID: {DISCORD_CHANNEL_ID}")
-            channel = await client.fetch_channel(DISCORD_CHANNEL_ID)
-            print("📨 Channel fetched. Sending message...")
-            awai
+    try:
+        await client.start(DISCORD_TOKEN)
+    except Exception as e:
+        print(f"🔥 Unexpected error: {e}")
