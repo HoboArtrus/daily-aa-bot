@@ -7,6 +7,31 @@ import os
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 DISCORD_CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))
 
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+DISCORD_CHANNEL_ID_RAW = os.getenv("DISCORD_CHANNEL_ID")
+
+# Debug prints — safe versions
+print(f"🔒 DISCORD_TOKEN is {'set' if DISCORD_TOKEN else 'MISSING'}")
+print(f"📢 Raw Channel ID: {DISCORD_CHANNEL_ID_RAW}")
+
+try:
+    DISCORD_CHANNEL_ID = int(DISCORD_CHANNEL_ID_RAW)
+except Exception as e:
+    print(f"❌ Error converting channel ID to int: {e}")
+    DISCORD_CHANNEL_ID = None
+
+
+# Debug prints — safe versions
+print(f"🔒 DISCORD_TOKEN is {'set' if DISCORD_TOKEN else 'MISSING'}")
+print(f"📢 Raw Channel ID: {DISCORD_CHANNEL_ID_RAW}")
+
+try:
+    DISCORD_CHANNEL_ID = int(DISCORD_CHANNEL_ID_RAW)
+except Exception as e:
+    print(f"❌ Error converting channel ID to int: {e}")
+    DISCORD_CHANNEL_ID = None
+
+
 def fetch_daily_reading():
     print("📚 Fetching daily reading from website...")
     url = "https://www.aahapphour.com/daily-readings/"
