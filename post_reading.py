@@ -25,10 +25,16 @@ async def post_to_discord():
     intents = discord.Intents.default()
     client = discord.Client(intents=intents)
 
-    @client.event
-    async def on_ready():
-        print(f"🤖 Logged in as {client.user}")
-    try:
-        await client.start(DISCORD_TOKEN)
-    except Exception as e:
-        print(f"🔥 Unexpected error: {e}")
+@client.event
+async def on_ready():
+    print(f"✅ Logged in as {client.user}")
+    
+    channel = client.get_channel(DISCORD_CHANNEL_ID)
+    if channel is None:
+        print("❌ Could not find the channel.")
+    else:
+        message = fetch_daily_reading()
+        await channel.send(message)
+        print("📨 Successfully sent message!")
+
+    await client.close()
