@@ -8,33 +8,46 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 DISCORD_CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))
 
 def fetch_daily_reading():
-    print("🔍 Fetching daily reading from website...")
-    url = "https://www.aahappyhour.com/daily-readings/"
+    print("📚 Fetching daily reading from website...")
+    url = "https://www.aahapphour.com/daily-readings/"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     content_div = soup.find("div", class_="entry-content")
+
     if not content_div:
         print("❌ Could not find the reading on the page.")
         return "Could not fetch today's reading."
+
     reading = content_div.get_text(separator="\n", strip=True)
     print("✅ Successfully fetched reading.")
-    return f"📖 **AA Daily Reading** 📖\n\n{reading}"
+    return f"**AA Daily Reading**\n\n{reading}"
 
 async def post_to_discord():
     print("🚀 Starting bot...")
     intents = discord.Intents.default()
     client = discord.Client(intents=intents)
 
-@client.event
-async def on_ready():
-    print(f"✅ Logged in as {client.user}")
-    
-    channel = client.get_channel(DISCORD_CHANNEL_ID)
-    if channel is None:
-        print("❌ Could not find the channel.")
-    else:
-        message = fetch_daily_reading()
-        await channel.send(message)
-        print("📨 Successfully sent message!")
+    @client.event
+    async def on_ready():
+        print(f"✅ Logged in as {client.user}")
+        
+        channel = client.get_channel(DISCORD_CHANNEL_ID)
+        if channel is None:
+            print("❌ Channel not found. Check the CHANNEL ID.")
+        else:
+            message = fetch_daily_reading()
+            try:
+                await channel.send(message)
+                print("📨 Successfully sent message.")
+            except Exception as send_error:
+                print(f"⚠️ Error sending message: {send_error}")
 
-    await client.close()
+        await client.close()
+
+    try:
+        await client.start(DISCORD_TOKEN)
+    except Exception as start_error:
+        print(f"🔥 Unexpected error: {start_error}")
+
+if __name__ == "__main__":
+    asyncio.run(post_to_discord())
